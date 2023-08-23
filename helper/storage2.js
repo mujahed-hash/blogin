@@ -59,4 +59,4 @@ const compressedStorage = (req, file, cb) => {
           });
   });
 };
-  module.exports = compressedStorage;
+  module.exports = storage;

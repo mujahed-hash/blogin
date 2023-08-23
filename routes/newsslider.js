@@ -1,5 +1,5 @@
 const express = require('express');
-const storage2 = require('../helper/storage');
+const storage2 = require('../helper/storage2');
 const newsController = require('../controller/newsslider');
 const router = express.Router();
 const News = require('../db/models/newsslider');

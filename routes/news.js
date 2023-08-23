@@ -1,5 +1,5 @@
 const express = require('express');
-const compressedStorage = require('../helper/storage');
+const compressedStorage = require('../helper/storagesli');
 const newsController = require('../controller/news');
 const router = express.Router();
 const News = require('../db/models/news');
