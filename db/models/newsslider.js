@@ -5,7 +5,10 @@ const newssliderSchema = mongoose.Schema({
                   type: mongoose.Schema.Types.ObjectId,
                   ref: 'Category'
               },
-        color:String,
+        color:{
+            type:String,
+            default:'black'
+        },
          sliderTitle:String,
          sliderHead: String,
          image:String,
