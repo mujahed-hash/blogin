@@ -13,6 +13,12 @@ const newSchema = mongoose.Schema({
         type: String,
         require: true
     },
+    customIdentifier: {
+        type: String,
+        unique: true,
+        required: true
+      },
+    
     createdAt: {
         type: Date,
         default: Date.now

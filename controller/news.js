@@ -2,6 +2,7 @@ const News = require('../db/models/news'); // Import your News model
 const Category = require('../db/models/category');
 const fs = require('fs');
 const sharp = require('sharp');
+const slugify = require('slugify');
 exports.getNews = async (req, res) => {
     try {
         let filter = {};
@@ -45,13 +46,15 @@ exports.postNews = async (req, res) => {
                 error: 'Invalid category'
             });
         }
-
         const {
             color,
             newshead,
-            newsdesc
+            newsdesc,
         } = req.body;
 
+        const randomComponent = Date.now().toString(); // You can replace this with your own logic
+
+        const customIdentifier = `${slugify(newshead, { lower: true })}-${randomComponent}`;
         const file = req.file;
         if (!file) return res.status(400).send('No image in the request');
         
@@ -71,7 +74,8 @@ fs.writeFileSync(out, compressedImageBuffer);
             color,
             newshead,
             newsdesc,
-            image: `${basePath}${out}`
+            image: `${basePath}${out}`,
+            customIdentifier
         });
 
         const newsData = await news.save();

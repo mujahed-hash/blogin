@@ -5,6 +5,7 @@ const router = express.Router();
 const News = require('../db/models/news');
 const fs = require('fs');
 const path = require('path');
+const slugify = require('slugify');
 
 router.post('/news', compressedStorage, newsController.postNews);
 router.get('/news', newsController.getNews);
@@ -56,6 +57,7 @@ router.put('/news/:id', compressedStorage, async (req, res) => {
         } else {
             imagePath = news.image;
         }
+  
 
         const updatedNews = await News.findByIdAndUpdate(
             req.params.id,
@@ -65,6 +67,7 @@ router.put('/news/:id', compressedStorage, async (req, res) => {
                 newshead: req.body.newshead,
                 newsdesc: req.body.newsdesc,
                 image: imagePath,
+                customIdentifier: generateCustomIdentifier(req.body.newshead) // Generate or update the custom identifier
             },
             { new: true }
         );
@@ -75,7 +78,11 @@ router.put('/news/:id', compressedStorage, async (req, res) => {
         res.status(500).send('Server error');
     }
 });
-
+function generateCustomIdentifier(newshead) {
+    // Generate your custom identifier here based on the updated newshead
+    const randomComponent = Date.now().toString();
+    return `${slugify(newshead, { lower: true })}-${randomComponent}`;
+}
 
 router.get('/newsByCategory/:categoryId', async (req, res, next) => {
     try {
@@ -118,4 +125,19 @@ router.delete('/news/:id', async (req, res) => {
     }
 
 });
+
+router.get('/shared/:customIdentifier', async (req, res) => {
+    const { customIdentifier } = req.params;
+    
+    try {
+      const news = await News.findOne({ customIdentifier }).populate('category');
+      if (!news) {
+        return res.status(404).json({ error: 'News not found' });
+      }
+      return res.json(news);
+    } catch (error) {
+      return res.status(500).json({ error: 'Server error' });
+    }
+  });
+  
 module.exports = router;
