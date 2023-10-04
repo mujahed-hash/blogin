@@ -6,7 +6,10 @@ const newSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category'
     },
-    color: String,
+    color:{
+        type:String,
+        default:'black'
+    },
     newshead: String,
     newsdesc: String,
     image: {
