@@ -11,7 +11,12 @@ const categorySchema = mongoose.Schema({
     color:{
         type:String,
         default:'blue'
-    }
+    },
+    customIdentifier: {
+        type: String,
+        unique: true,
+        required: true
+      },
    
 });
 categorySchema.virtual('id').get(function(){

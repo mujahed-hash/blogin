@@ -17,10 +17,12 @@ exports.postCategory = async (req,res)=>{
  try{
     const {name} = req.body;
     const {color} = req.body;
- 
+    const customIdentifier = `${slugify(name, { lower: true })}-${randomComponent}`;
+
     const createCategory = new Category({
         name,
-        color
+        color,
+        customIdentifier
     });
 
    const createdCategory= await createCategory.save();

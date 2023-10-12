@@ -1,0 +1,8 @@
+{
+    "git.ignoreLimitWarning": true,
+    "terminal.explorerKind": "both",
+    "terminal.integrated.automationProfile.linux": {
+
+    },
+    "terminal.integrated.automationProfile.windows": {}
+}
