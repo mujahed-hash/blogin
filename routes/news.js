@@ -6,6 +6,7 @@ const News = require('../db/models/news');
 const fs = require('fs');
 const path = require('path');
 const slugify = require('slugify');
+const Category = require('../db/models/category');
 
 router.post('/news', compressedStorage, newsController.postNews);
 router.get('/news', newsController.getNews);
@@ -96,6 +97,28 @@ router.get('/newsByCategory/:categoryId', async (req, res, next) => {
         res.status(500).json({ error: err });
     }
 });
+router.get('/newsByCustom/:customIdentifier', async (req, res, next) => {
+    try {
+      const customIdentifier = req.params.customIdentifier;
+  
+      // Find the Category document by customIdentifier
+      const category = await Category.findOne({ customIdentifier });
+  
+      if (!category) {
+        return res.status(404).json({ error: 'Category not found' });
+      }
+  
+      // Find news articles with the specified category ID (using category._id)
+      const newsByCategory = await News.find({ category: category._id })
+        .sort({ createdAt: -1 })
+        .populate('category');
+  
+      res.json(newsByCategory);
+    } catch (err) {
+      res.status(500).json({ error: err });
+    }
+  });
+  
 
 router.delete('/news/:id', async (req, res) => {
     try {

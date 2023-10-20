@@ -71,10 +71,10 @@ fs.writeFileSync(out, compressedImageBuffer);
 // console.log('Output Path:', out);
         const news = new News({
             category: req.body.category,
-            color,
             newshead,
             newsdesc,
             image: `${basePath}${out}`,
+            color,
             customIdentifier
         });
 

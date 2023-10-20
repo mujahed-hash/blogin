@@ -6,15 +6,15 @@ const newSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category'
     },
-    color:{
-        type:String,
-        default:'black'
-    },
     newshead: String,
     newsdesc: String,
     image: {
         type: String,
         require: true
+    },
+    color:{
+        type: String,
+        default: "#3b3b3b",
     },
     customIdentifier: {
         type: String,
@@ -30,6 +30,7 @@ const newSchema = mongoose.Schema({
         type: Date,
         default: Date.now
     },
+ 
 
 });
 newSchema.virtual('id').get(function () {

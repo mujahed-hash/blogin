@@ -81,4 +81,20 @@ router.get('/cat/:categoryId', async (req, res, next) => {
         res.status(500).json({ error: err });
     }
 });
+
+router.get('/shared/:customIdentifier', async (req, res) => {
+    
+    try {
+        const { customIdentifier } = req.params;
+
+      const category = await Category.find({ customIdentifier });
+      if (!category) {
+        return res.status(404).json({ error: 'category not found' });
+      }
+      return res.json(category);
+    } catch (error) {
+      return res.status(500).json({ error: 'Server error' });
+    }
+  });
+
 module.exports = router;
